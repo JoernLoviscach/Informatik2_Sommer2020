@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Photovoltaikdaten"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Photovoltaik" Height="450" Width="800">
     <Grid>
-        
+        <DatePicker x:Name="datePickerAnfangszeitpunkt" HorizontalAlignment="Left" Margin="190,108,0,0" VerticalAlignment="Top" SelectedDateChanged="datePickerAnfangszeitpunkt_SelectedDateChanged" SelectedDate="2017-01-01"/>
+        <DatePicker x:Name="datePickerEndzeitpunkt" HorizontalAlignment="Left" Margin="190,223,0,0" VerticalAlignment="Top" SelectedDateChanged="datePickerEndzeitpunkt_SelectedDateChanged" SelectedDate="2017-12-31"/>
+        <Label Content="Startzeitpunkt" HorizontalAlignment="Left" Margin="79,108,0,0" VerticalAlignment="Top"/>
+        <Label Content="Endzeitpunkt" HorizontalAlignment="Left" Margin="79,221,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlockAusgabe" HorizontalAlignment="Left" Margin="477,129,0,0" TextWrapping="Wrap" Text="Noch keine Ausgabe." VerticalAlignment="Top" Height="118" Width="238" Background="Gainsboro"/>
+
     </Grid>
 </Window>
