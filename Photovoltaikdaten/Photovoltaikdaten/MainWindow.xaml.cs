@@ -55,20 +55,20 @@ namespace Photovoltaikdaten
                 return;
             }
 
-            int viertelStundeAnfang = (int)(
+            int viertelstundeAnfang = (int)(
                     (datePickerAnfangszeitpunkt.SelectedDate.Value - new DateTime(2017, 1, 1))
                                                                           .TotalMinutes / 15.0
                                            );
-            int viertelStundeEnde = (int)(
+            // plus 24 * 4, damit der letzte Tag noch mitzählt
+            int viertelstundeEnde = 24 * 4 + (int)(
                     (datePickerEndzeitpunkt.SelectedDate.Value - new DateTime(2017, 1, 1))
-                                                                          .TotalMinutes / 15.0
-                                         );
+                                                                      .TotalMinutes / 15.0
+                                           );
 
-            // auf die brutale Art
             double summe = 0.0;
             for (int i = 0; i < 365 * 24 * 4; i++)
             {
-                if(viertelStundeAnfang <= i && i < viertelStundeEnde)
+                if(viertelstundeAnfang <= i && i < viertelstundeEnde)
                 {
                     summe += erzeugungsdaten[i];
                 }
