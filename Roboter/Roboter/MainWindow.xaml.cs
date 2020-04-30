@@ -25,7 +25,7 @@ namespace Roboter
             InitializeComponent();
         }
 
-        private void GebeKoordinatenAus()
+        private void GibKoordinatenAus()
         {
             textBlockAusgabe.Text = "x1=" + robbi.X + "; y1=" + robbi.Y + "; x2=" + robbi2.X + "; y2=" + robbi2.Y;
         }
@@ -33,25 +33,25 @@ namespace Roboter
         private void Button_Click_Nr1Runter(object sender, RoutedEventArgs e)
         {
             robbi.BewegeNachUnten();
-            GebeKoordinatenAus();
+            GibKoordinatenAus();
         }
 
         private void Button_ClickNr1Rechts(object sender, RoutedEventArgs e)
         {
             robbi.BewegeNachRechts();
-            GebeKoordinatenAus();
+            GibKoordinatenAus();
         }
 
         private void Button_ClickNr2Runter(object sender, RoutedEventArgs e)
         {
             robbi2.BewegeNachUnten();
-            GebeKoordinatenAus();
+            GibKoordinatenAus();
         }
 
         private void Button_ClickNr2Rechts(object sender, RoutedEventArgs e)
         {
             robbi2.BewegeNachRechts();
-            GebeKoordinatenAus();
+            GibKoordinatenAus();
         }
     }
 
