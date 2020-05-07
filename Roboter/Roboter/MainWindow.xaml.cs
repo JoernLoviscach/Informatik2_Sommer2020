@@ -13,16 +13,34 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+/* Vokabeln:
+ * private, protected, public 
+ * static
+ * void, int, long, ulong, bool, ..., double, float, string
+ * for(;;){}  while(){}  do{}while();  alle mit break und continue
+ * if(){} KEINE SCHLEIFE  switch(){case ...: break; default: ...}
+ * class (Referenztyp!), struct (Werttyp!)
+ * new
+ * get, set
+ * Doppelpunkt, base (vergleiche: this)
+ * abstract, virtual, override
+ */
+
 namespace Roboter
 {
     public partial class MainWindow : Window
     {
-        SuperDuperRoboter robbi = new SuperDuperRoboter(3, 5);
-        SuperDuperRoboter robbi2 = new SuperDuperRoboter(4, 2);
+        Standardroboter robbi;
+        Standardroboter robbi2;
 
-        public MainWindow()
+        public MainWindow() // Konstruktor! Läuft nur einmal kurz am Anfang!
         {
             InitializeComponent();
+
+            robbi = new Standardroboter(zeichenfläche, 3, 5);
+
+            //Polymorphie:
+            robbi2 = new Kreisroboter(zeichenfläche, 4, 2);
         }
 
         private void GibKoordinatenAus()
@@ -55,11 +73,12 @@ namespace Roboter
         }
     }
 
-    class SuperDuperRoboter // Vorsicht: Klassenname nicht wie Namespace-Name
+    class Standardroboter // Vorsicht: Klassenname nicht wie Namespace-Name
     {
         // Attribute (Microsoft: "Felder"):
         int x;
         int y; // y-Achse zeigt nach unten!
+        Rectangle quadrat;
 
         // Properties = Eigenschaften:
         public int X
@@ -73,21 +92,60 @@ namespace Roboter
 
         // Methoden:
         // Constructor
-        public SuperDuperRoboter(int x, int y)
+        public Standardroboter(Canvas c, int x, int y)
         {
             this.x = x;
             this.y = y;
+
+            quadrat = new Rectangle();
+            quadrat.Fill = Brushes.Green;
+            quadrat.Width = 10.0;
+            quadrat.Height = 10.0;
+            c.Children.Add(quadrat);
+            Canvas.SetLeft(quadrat, x * 10);
+            Canvas.SetTop(quadrat, y * 10); // y-Achse zeigt nach unten!
         }
 
         // bewege den Roboter einen Schritt nach rechts
-        public void BewegeNachRechts()
+        public virtual void BewegeNachRechts()
         {
             x++;
+            Canvas.SetLeft(quadrat, x * 10);
         }
         // bewege den Roboter einen Schritt nach unten
-        public void BewegeNachUnten()
+        public virtual void BewegeNachUnten()
         {
             y++;
+            Canvas.SetTop(quadrat, y * 10);
+        }
+    }
+
+    class Kreisroboter : Standardroboter
+    {
+        Ellipse elli;
+
+        public Kreisroboter(Canvas c, int x, int y)
+            : base(c, x, y)
+        {
+            elli = new Ellipse();
+            elli.Fill = Brushes.Orange;
+            elli.Width = 10.0;
+            elli.Height = 10.0;
+            c.Children.Add(elli);
+            Canvas.SetLeft(elli, x * 10);
+            Canvas.SetTop(elli, y * 10); // y-Achse zeigt nach unten!   
+        }
+
+        public override void BewegeNachRechts()
+        {
+            base.BewegeNachRechts();
+            Canvas.SetLeft(elli, X * 10);
+        }
+
+        public override void BewegeNachUnten()
+        {
+            base.BewegeNachUnten();
+            Canvas.SetTop(elli, Y * 10);
         }
     }
 }
