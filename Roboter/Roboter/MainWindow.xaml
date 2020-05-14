@@ -7,12 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Nr. 1 nach unten" HorizontalAlignment="Left" Margin="6,39,0,0" VerticalAlignment="Top" Width="105" Click="Button_Click_Nr1Runter"/>
-        <Button Content="Nr. 1 nach rechts" HorizontalAlignment="Left" Margin="96,11,0,0" VerticalAlignment="Top" Width="105" Click="Button_ClickNr1Rechts"/>
-        <Button Content="Nr. 2 nach unten" HorizontalAlignment="Left" Margin="248,39,0,0" VerticalAlignment="Top" Width="105" Click="Button_ClickNr2Runter"/>
-        <Button Content="Nr. 2 nach rechts" HorizontalAlignment="Left" Margin="334,16,0,0" VerticalAlignment="Top" Width="105" Click="Button_ClickNr2Rechts"/>
+        <Button Content="nach unten" HorizontalAlignment="Left" Margin="6,39,0,0" VerticalAlignment="Top" Width="105" Click="Button_Click_Runter"/>
+        <Button Content="nach rechts" HorizontalAlignment="Left" Margin="96,11,0,0" VerticalAlignment="Top" Width="105" Click="Button_ClickRechts"/>
         <TextBlock x:Name="textBlockAusgabe" HorizontalAlignment="Left" Margin="111,110,0,0" TextWrapping="Wrap" Text="---" VerticalAlignment="Top" Height="64" Width="328"/>
         <Canvas x:Name="zeichenfläche" HorizontalAlignment="Left" Height="251" Margin="294,158,0,0" VerticalAlignment="Top" Width="488" Background="LightGray"/>
+        <ListBox x:Name="listBoxRoboter" HorizontalAlignment="Left" Height="138" Margin="78,195,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Window>

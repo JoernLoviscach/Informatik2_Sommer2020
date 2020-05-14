@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 /* Vokabeln:
+ * [] für Array
+ * (int)  (Roboter)  usw.: Casting
  * private, protected, public 
  * static
  * void, int, long, ulong, bool, ..., double, float, string
@@ -41,22 +43,62 @@ namespace Roboter
 
             //Polymorphie:
             robbi2 = new Kreisroboter(zeichenfläche, 4, 2);
+            // Diese Zuweisung beinhaltet einen Upcast (Kind wird zu Mutter).
+            // Upcast ist immer erlaubt.
+
+            //Downcast verlangt ausdrückliche Umwandlung:
+            Kreisroboter r = (Kreisroboter)robbi2;
+            Kreisroboter t = robbi as Kreisroboter; // unmöglich, liefert deshalb null
+
+            // vergleiche zum Casten:
+            double x = (int)0.1234;
+
+            listBoxRoboter.Items.Add(robbi);
+            listBoxRoboter.Items.Add(robbi2);
+            for (int i = 0; i < 5; i++)
+            {
+                listBoxRoboter.Items.Add(new Standardroboter(zeichenfläche, i + 2, i + 3));
+            }
+
+            ListBoxItem eintrag = new ListBoxItem();
+            eintrag.Content = "Hier steht was";
+            eintrag.Background = Brushes.Red;
+            eintrag.FontFamily = new FontFamily("Times New Roman");
+            // Im "Tag" können wir anhängen, was wir wollen!
+            eintrag.Tag = listBoxRoboter.Items[3];
+            listBoxRoboter.Items.Add(eintrag);
         }
 
         private void GibKoordinatenAus()
         {
-            textBlockAusgabe.Text = "x1=" + robbi.X + "; y1=" + robbi.Y + "; x2=" + robbi2.X + "; y2=" + robbi2.Y;
+            textBlockAusgabe.Text = robbi.ToString() + "; " + robbi2.ToString();
         }
 
-        private void Button_Click_Nr1Runter(object sender, RoutedEventArgs e)
+        private void Button_Click_Runter(object sender, RoutedEventArgs e)
         {
-            robbi.BewegeNachUnten();
+            if (listBoxRoboter.SelectedItem is ListBoxItem)
+            {
+                ((Standardroboter)((ListBoxItem)listBoxRoboter.SelectedItem).Tag).BewegeNachUnten();
+            }
+            else
+            {
+                // Zu den Klammern vergleiche 1 + 2 * 3 * 4 != (1 + 2 * 3) * 4
+                ((Standardroboter)listBoxRoboter.SelectedItem).BewegeNachUnten();
+            }
             GibKoordinatenAus();
         }
 
-        private void Button_ClickNr1Rechts(object sender, RoutedEventArgs e)
+        private void Button_ClickRechts(object sender, RoutedEventArgs e)
         {
-            robbi.BewegeNachRechts();
+            if (listBoxRoboter.SelectedItem is ListBoxItem)
+            {
+                ((Standardroboter)((ListBoxItem)listBoxRoboter.SelectedItem).Tag).BewegeNachRechts();
+            }
+            else
+            {
+                // Zu den Klammern vergleiche 1 + 2 * 3 * 4 != (1 + 2 * 3) * 4
+                ((Standardroboter)listBoxRoboter.SelectedItem).BewegeNachRechts();
+            }
             GibKoordinatenAus();
         }
 
@@ -118,6 +160,11 @@ namespace Roboter
             y++;
             Canvas.SetTop(quadrat, y * 10);
         }
+
+        public override string ToString()
+        {
+            return "x = " + X + ", y = " + Y;
+        }
     }
 
     class Kreisroboter : Standardroboter
@@ -146,6 +193,11 @@ namespace Roboter
         {
             base.BewegeNachUnten();
             Canvas.SetTop(elli, Y * 10);
+        }
+
+        public override string ToString()
+        {
+            return "Hallo!";
         }
     }
 }
