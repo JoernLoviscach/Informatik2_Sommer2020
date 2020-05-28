@@ -25,7 +25,10 @@ using System.Windows.Shapes;
  * new
  * get, set
  * Doppelpunkt, base (vergleiche: this)
- * abstract, virtual, override
+ * abstract (abstrakte Klassen, abstrakte Methoden), virtual, override
+ * Klasse1<Klasse2> (generische Klassen)
+ * => (Lambda-Ausdruck)
+ * List<>, Stack<> ((Push, Pop)), Queue<> ((Enqueue, Dequeue))
  */
 
 namespace Roboter
@@ -39,7 +42,7 @@ namespace Roboter
         {
             InitializeComponent();
 
-            robbi = new Standardroboter(zeichenfläche, 3, 5);
+            robbi = new Quadratroboter(zeichenfläche, 3, 5);
 
             //Polymorphie:
             robbi2 = new Kreisroboter(zeichenfläche, 4, 2);
@@ -57,7 +60,7 @@ namespace Roboter
             listBoxRoboter.Items.Add(robbi2);
             for (int i = 0; i < 5; i++)
             {
-                listBoxRoboter.Items.Add(new Standardroboter(zeichenfläche, i + 2, i + 3));
+                listBoxRoboter.Items.Add(new Quadratroboter(zeichenfläche, i + 2, i + 3));
             }
 
             ListBoxItem eintrag = new ListBoxItem();
@@ -67,6 +70,19 @@ namespace Roboter
             // Im "Tag" können wir anhängen, was wir wollen!
             eintrag.Tag = listBoxRoboter.Items[3];
             listBoxRoboter.Items.Add(eintrag);
+
+            // Collections:
+            List<Standardroboter> dieRoboter = new List<Standardroboter>();
+            dieRoboter.Add(robbi);
+            dieRoboter.Add(robbi);
+            dieRoboter.Add(robbi);
+            int z = dieRoboter.Count;
+            // Lambda-Ausdruck = anonyme Funktion, vgl.  x |–––> x²
+            double maxAbstandVomUrsprung = dieRoboter.Max(ro => Math.Sqrt(ro.X * ro.X + ro.Y * ro.Y));
+            dieRoboter[0] = robbi2; // wie Array
+            dieRoboter[2].BewegeNachRechts(); // wie Array
+            dieRoboter.RemoveAt(1);
+            dieRoboter.Clear();
         }
 
         private void GibKoordinatenAus()
@@ -115,12 +131,11 @@ namespace Roboter
         }
     }
 
-    class Standardroboter // Vorsicht: Klassenname nicht wie Namespace-Name
+    abstract class Standardroboter // Vorsicht: Klassenname nicht wie Namespace-Name
     {
         // Attribute (Microsoft: "Felder"):
         int x;
         int y; // y-Achse zeigt nach unten!
-        Rectangle quadrat;
 
         // Properties = Eigenschaften:
         public int X
@@ -134,31 +149,21 @@ namespace Roboter
 
         // Methoden:
         // Constructor
-        public Standardroboter(Canvas c, int x, int y)
+        public Standardroboter(int x, int y)
         {
             this.x = x;
             this.y = y;
-
-            quadrat = new Rectangle();
-            quadrat.Fill = Brushes.Green;
-            quadrat.Width = 10.0;
-            quadrat.Height = 10.0;
-            c.Children.Add(quadrat);
-            Canvas.SetLeft(quadrat, x * 10);
-            Canvas.SetTop(quadrat, y * 10); // y-Achse zeigt nach unten!
         }
 
         // bewege den Roboter einen Schritt nach rechts
         public virtual void BewegeNachRechts()
         {
             x++;
-            Canvas.SetLeft(quadrat, x * 10);
         }
         // bewege den Roboter einen Schritt nach unten
         public virtual void BewegeNachUnten()
         {
             y++;
-            Canvas.SetTop(quadrat, y * 10);
         }
 
         public override string ToString()
@@ -167,12 +172,41 @@ namespace Roboter
         }
     }
 
+    class Quadratroboter : Standardroboter
+    {
+        Rectangle quadrat;
+
+        public Quadratroboter(Canvas c, int x, int y)
+            : base(x, y)
+        {
+            quadrat = new Rectangle();
+            quadrat.Fill = Brushes.Green;
+            quadrat.Width = 10.0;
+            quadrat.Height = 10.0;
+            c.Children.Add(quadrat);
+            Canvas.SetLeft(quadrat, X * 10);
+            Canvas.SetTop(quadrat, Y * 10); // y-Achse zeigt nach unten!
+        }
+
+        public override void BewegeNachRechts()
+        {
+            base.BewegeNachRechts();
+            Canvas.SetLeft(quadrat, X * 10);
+        }
+
+        public override void BewegeNachUnten()
+        {
+            base.BewegeNachUnten();
+            Canvas.SetTop(quadrat, Y * 10);
+        }
+    }
+
     class Kreisroboter : Standardroboter
     {
         Ellipse elli;
 
         public Kreisroboter(Canvas c, int x, int y)
-            : base(c, x, y)
+            : base(x, y)
         {
             elli = new Ellipse();
             elli.Fill = Brushes.Orange;
@@ -198,6 +232,22 @@ namespace Roboter
         public override string ToString()
         {
             return "Hallo!";
+        }
+    }
+
+    // zum zweiten Praktikum:
+
+    abstract class Anlage
+    {
+        // Logik: Abstrakte oder virtuelle Methoden können nicht privat sein!
+        abstract public void SpeiseStromEin(TimeSpan wieLange);
+    }
+
+    class Photovoltaikanlage : Anlage
+    {
+        public override void SpeiseStromEin(TimeSpan wieLange)
+        {
+            // ...
         }
     }
 }
