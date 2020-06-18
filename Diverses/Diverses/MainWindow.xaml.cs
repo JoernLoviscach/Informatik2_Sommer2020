@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -147,6 +148,31 @@ namespace Diverses
             }
 
             int f = a * a;
+        }
+
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                string inhalt = "blablabla";
+                File.WriteAllText(@"C:\Users\jl\Desktop\test12345\a" + i + ".txt", inhalt);
+            }
+
+            StreamWriter sw = new StreamWriter(@"C:\Users\jl\Desktop\test12345\b.txt");
+            sw.WriteLine("blablabla");
+            sw.WriteLine("blablabla");
+            sw.Close(); // Job für "finally" oder "using".
+
+            FileStream fs = new FileStream(@"C:\Users\jl\Desktop\test12345\c.txt", FileMode.Create, FileAccess.Write);
+            fs.Write(new byte[] { 64, 65, 66, 67, 68, 69 }, 0, 6);
+            fs.Position = 4;
+            fs.Write(new byte[] { 84, 85, 86, 87 }, 0, 4);
+            fs.Close(); // Job für "finally" oder "using".
+        }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            string inhalt = File.ReadAllText(@"C:\Users\jl\Desktop\test12345\a.txt");
         }
     }
 }
